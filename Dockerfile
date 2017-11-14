@@ -146,13 +146,16 @@ ENV KONG_LUA_CODE_CACHE=false
 ENV KONG_LOG_LEVEL=debug
 
 # Set Kong version
-ENV KONG_VERSION=c7b4b48e6fd26c2789e38458d0a099ef08e631bb
+ENV KONG_VERSION=b7f4933bd3175c1b6e24fb0e3b96730e6296fdb4
 
 # Install Kong from source
 RUN mkdir /kong/ \
     && cd /kong/ \
     && git clone https://github.com/Mashape/kong.git . \
-    && git checkout $KONG_VERSION \
+    && git checkout $KONG_VERSION
+
+RUN cd /kong/ \
+    && git config --global url."https://".insteadOf git:// \
     && make install \
     && make dev \
     && apk del .build-deps
